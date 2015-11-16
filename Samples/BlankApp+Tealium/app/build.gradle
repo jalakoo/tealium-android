@@ -19,6 +19,5 @@ android {
 }
 
 dependencies {
-    compile files('libs/tealium.4.1.4c.jar')
-    compile(name:'tealiumlibrary', ext:'aar')
+    compile(name:'tealium-5.0.0', ext:'aar')
 }

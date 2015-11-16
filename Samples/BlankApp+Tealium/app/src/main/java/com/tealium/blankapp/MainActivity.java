@@ -1,6 +1,7 @@
 package com.tealium.blankapp;
 
 import com.tealium.blankapp.helper.TealiumHelper;
+import com.tealium.library.Tealium;
 
 import android.app.Activity;
 import android.os.Bundle;
