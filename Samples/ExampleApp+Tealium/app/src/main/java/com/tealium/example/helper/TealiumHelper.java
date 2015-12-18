@@ -43,8 +43,6 @@ public final class TealiumHelper {
 
         Tealium.Config config = Tealium.Config.create(application, "tealiummobile", "demo", "dev");
 
-        config.setOverridePublishURL("https://tags.tiqcdn.com/qa6/tealiummobile/android/dev/mobile.html");
-
         // Get the WebView with UTag loaded
         config.getEventListeners().add(new WebViewLoadListener() {
             @Override
