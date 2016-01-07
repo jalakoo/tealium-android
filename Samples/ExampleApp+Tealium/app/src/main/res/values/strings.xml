@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Tealium Compact Example</string>
+    <string name="app_name">Tealium Example</string>
     <string name="action_settings">Settings</string>
     <string name="fragment_dialog_text">A Simple DialogFragment</string>
     <string name="tealium_url">http://www.tealium.com</string>
