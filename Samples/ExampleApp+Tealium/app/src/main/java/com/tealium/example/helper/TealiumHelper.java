@@ -1,14 +1,15 @@
 package com.tealium.example.helper;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
+import android.webkit.CookieManager;
 import android.webkit.WebView;
 
 import com.tealium.example.BuildConfig;
 import com.tealium.internal.data.Dispatch;
+import com.tealium.internal.listeners.WebViewCreatedListener;
 import com.tealium.internal.listeners.WebViewLoadListener;
 import com.tealium.internal.tagbridge.RemoteCommand;
 import com.tealium.library.DispatchValidator;
@@ -33,7 +34,6 @@ public final class TealiumHelper {
     private TealiumHelper() {
     }
 
-    @SuppressLint("NewApi")
     public static void initialize(Application application) {
         Log.i(TAG, "initialize(" + application.getClass().getSimpleName() + ")");
 
@@ -41,13 +41,34 @@ public final class TealiumHelper {
             WebView.setWebContentsDebuggingEnabled(true);
         }
 
-        Tealium.Config config = Tealium.Config.create(application, "tealiummobile", "demo", "dev");
+        final Tealium.Config config = Tealium.Config.create(application, "tealiummobile", "demo", "dev");
+
+        config.getEventListeners().add(new WebViewCreatedListener() {
+            @Override
+            public void onWebViewCreated(WebView webView) {
+                final CookieManager mgr = CookieManager.getInstance();
+
+                // Accept all cookies
+                mgr.setAcceptCookie(true);
+
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mgr.setAcceptThirdPartyCookies(webView, true);
+                }
+
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+                    CookieManager.setAcceptFileSchemeCookies(true);
+                }
+
+                Log.d(TAG, "WebView " + webView + " created and cookies enabled.");
+            }
+        });
 
         // Get the WebView with UTag loaded
         config.getEventListeners().add(new WebViewLoadListener() {
             @Override
             public void onWebViewLoad(WebView webView, boolean success) {
-
+                Log.d(TAG, "WebView " + webView +
+                        (success ? " loaded successfully" : "failed to load"));
             }
         });
 
@@ -67,14 +88,16 @@ public final class TealiumHelper {
 
 
         // Enhanced integrations
-        config.getRemoteCommands().add(new RemoteCommand("name", "description") {
+        config.getRemoteCommands().add(new RemoteCommand("logger", "Writes out messages to LogCat.") {
             @Override
             protected void onInvoke(Response response) throws Exception {
-
+                final String message = response.getRequestPayload()
+                        .optString("message", "no_message");
+                Log.i(TAG, "RemoteCommand Message: " + message);
             }
         });
 
-        Tealium instance = Tealium.createInstance(TEALIUM_MAIN, config);
+        final Tealium instance = Tealium.createInstance(TEALIUM_MAIN, config);
 
         // Use tealium.getDataSources().getPersistentDataSources() to set/modify lifetime values
         SharedPreferences sp = instance.getDataSources().getPersistentDataSources();
@@ -85,7 +108,7 @@ public final class TealiumHelper {
                 .put(KEY_TEALIUM_INITIALIZED, System.currentTimeMillis());
 
         // Adding event-specific data
-        Map<String, Object> data = new HashMap<>(2);
+        final Map<String, Object> data = new HashMap<>(2);
         data.put("logged_in", false);
         data.put("visitor_status", new String[]{"new_user", "unregistered"});
 
