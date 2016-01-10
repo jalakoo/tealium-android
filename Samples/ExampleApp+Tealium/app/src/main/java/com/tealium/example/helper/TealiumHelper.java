@@ -61,6 +61,11 @@ public final class TealiumHelper {
 
                 Log.d(TAG, "WebView " + webView + " created and cookies enabled.");
             }
+
+            @Override
+            public String toString() {
+                return "EnableCookieWebViewCreatedListener";
+            }
         });
 
         // Get the WebView with UTag loaded
@@ -69,6 +74,11 @@ public final class TealiumHelper {
             public void onWebViewLoad(WebView webView, boolean success) {
                 Log.d(TAG, "WebView " + webView +
                         (success ? " loaded successfully" : "failed to load"));
+            }
+
+            @Override
+            public String toString() {
+                return "LoggingWebViewLoadListener";
             }
         });
 
@@ -84,6 +94,11 @@ public final class TealiumHelper {
             protected boolean shouldQueue(Dispatch dispatch, boolean shouldQueue) {
                 return super.shouldQueue(dispatch, shouldQueue);
             }
+
+            @Override
+            public String toString() {
+                return "CustomDispatchValidator";
+            }
         });
 
 
@@ -94,6 +109,11 @@ public final class TealiumHelper {
                 final String message = response.getRequestPayload()
                         .optString("message", "no_message");
                 Log.i(TAG, "RemoteCommand Message: " + message);
+            }
+
+            @Override
+            public String toString() {
+                return "LoggerRemoteCommand";
             }
         });
 
