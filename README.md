@@ -1,6 +1,8 @@
-# Tealium Mobile Library for iOS Version 5.0.0
+# Tealium Mobile Library for Android Version 5.0.0
 
 This mobile library leverages the power of Tealium's [TIQ™ Tag Management](http://tealium.com/products/tealium-iq-tag-management-system/), [AudienceStream™](http://tealium.com/products/audiencestream/) and [Data Access™](http://tealium.com/products/tealium-dataaccess/) products, or any combination of, making them natively available to Android applications.
+
+**Minimum Android API: 9 (Gingerbread)**
 
 ## What does Tealium do?
 
