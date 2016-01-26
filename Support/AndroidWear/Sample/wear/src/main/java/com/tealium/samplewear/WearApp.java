@@ -5,6 +5,7 @@ import android.app.Application;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.wearable.DataMap;
 import com.tealium.wear.TealiumWear;

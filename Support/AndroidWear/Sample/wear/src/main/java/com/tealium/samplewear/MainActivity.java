@@ -3,9 +3,15 @@ package com.tealium.samplewear;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.tealium.wear.TealiumWear;
+
 public class MainActivity extends Activity {
+
+    public static final String TEALIUM_MAIN = "main";
 
     private TextView mTextView;
 
@@ -20,5 +26,11 @@ public class MainActivity extends Activity {
                 mTextView = (TextView) stub.findViewById(R.id.text);
             }
         });
+    }
+
+    public void buttonClick(View v){
+
+        TealiumWear.getInstance(TEALIUM_MAIN).trackEvent("button_click", null);
+
     }
 }
